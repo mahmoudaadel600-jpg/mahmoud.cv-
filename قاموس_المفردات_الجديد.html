@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>📖 قاموس المفردات الأساسية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Tajawal',sans-serif;
+  background:linear-gradient(135deg,#e8f4ff 0%,#fce4ec 45%,#fffde7 80%,#d4f5e9 100%);
+  min-height:100vh;
+  padding-bottom:60px;
+}
+
+.star{position:fixed;pointer-events:none;font-size:1.3rem;animation:floatUp linear infinite;opacity:.7;z-index:0}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0);opacity:.7}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+
+header{text-align:center;padding:28px 16px 12px;position:relative;z-index:2}
+.hbubble{
+  display:inline-block;
+  background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);
+  border-radius:28px;padding:16px 40px;
+  box-shadow:0 8px 28px rgba(102,126,234,.35);
+}
+.hbubble h1{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,5vw,2.4rem);color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.2)}
+.hbubble p{color:rgba(255,255,255,.92);font-size:.88rem;margin-top:4px;font-weight:500}
+
+.sw{display:flex;justify-content:center;padding:14px 16px 4px}
+.si{
+  font-family:'Tajawal',sans-serif;font-size:1rem;
+  padding:11px 20px;border-radius:50px;
+  border:2px solid #e0e0e0;outline:none;
+  width:100%;max-width:420px;text-align:right;
+  box-shadow:0 3px 8px rgba(0,0,0,.07);
+  transition:border-color .2s;background:#fff;color:#333;
+}
+.si:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.18)}
+
+.cnt{text-align:center;color:#999;font-size:.82rem;padding:4px 0 2px}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:18px;padding:16px 22px;
+  max-width:1200px;margin:0 auto;
+}
+
+.card{
+  background:#fff;border-radius:22px;
+  box-shadow:0 5px 20px rgba(0,0,0,.09);
+  padding:20px 16px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  border:2.5px solid transparent;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;
+  animation:ci .45s cubic-bezier(.34,1.56,.64,1) both;
+  cursor:pointer;position:relative;overflow:hidden;z-index:1;
+}
+@keyframes ci{from{opacity:0;transform:translateY(28px) scale(.9)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-7px) scale(1.02);box-shadow:0 16px 38px rgba(0,0,0,.13)}
+
+.card[data-c="action"]   {border-color:#43cea2;background:linear-gradient(160deg,#eefffa 0%,#fff 55%)}
+.card[data-c="mindset"]  {border-color:#8e54e9;background:linear-gradient(160deg,#f2eeff 0%,#fff 55%)}
+.card[data-c="daily"]    {border-color:#f7971e;background:linear-gradient(160deg,#fff8ec 0%,#fff 55%)}
+.card[data-c="emotion"]  {border-color:#f953c6;background:linear-gradient(160deg,#ffeefb 0%,#fff 55%)}
+.card[data-c="social"]   {border-color:#7ec8e3;background:linear-gradient(160deg,#e8f8ff 0%,#fff 55%)}
+
+.esph{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.4rem;line-height:1;
+  filter:drop-shadow(0 5px 12px rgba(0,0,0,.18));
+  animation:ef 3s ease-in-out infinite;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1),filter .25s;
+  flex-shrink:0;
+}
+.card:hover .esph{transform:scale(1.2) rotate(-8deg);animation:none}
+@keyframes ef{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.card[data-c="action"]  .esph{background:radial-gradient(circle at 35% 35%,#a8f0d8,#1db87c 60%,#0a6640)}
+.card[data-c="mindset"] .esph{background:radial-gradient(circle at 35% 35%,#cbb4f8,#7b2ff7 60%,#3a0099)}
+.card[data-c="daily"]   .esph{background:radial-gradient(circle at 35% 35%,#ffe680,#f7971e 60%,#a85400)}
+.card[data-c="emotion"] .esph{background:radial-gradient(circle at 35% 35%,#ffb3ec,#f953c6 60%,#8f0064)}
+.card[data-c="social"]  .esph{background:radial-gradient(circle at 35% 35%,#b3e5fc,#7ec8e3 60%,#2980b9)}
+
+.aw{font-size:1.4rem;font-weight:900;text-align:center;line-height:1.4}
+.card[data-c="action"]  .aw{color:#0a6640}
+.card[data-c="mindset"] .aw{color:#3a0099}
+.card[data-c="daily"]   .aw{color:#a85400}
+.card[data-c="emotion"] .aw{color:#8f0064}
+.card[data-c="social"]  .aw{color:#2980b9}
+
+.badge{font-size:.88rem;font-weight:700;padding:4px 14px;border-radius:20px;color:#fff}
+.card[data-c="action"]  .badge{background:linear-gradient(90deg,#43cea2,#185a9d)}
+.card[data-c="mindset"] .badge{background:linear-gradient(90deg,#4776e6,#8e54e9)}
+.card[data-c="daily"]   .badge{background:linear-gradient(90deg,#f7971e,#ffd200);color:#5a3000}
+.card[data-c="emotion"] .badge{background:linear-gradient(90deg,#f953c6,#b91d73)}
+.card[data-c="social"]  .badge{background:linear-gradient(90deg,#7ec8e3,#2980b9)}
+
+.sbtn{
+  width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;
+  font-size:1.5rem;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;
+}
+.sbtn:hover{transform:scale(1.18);box-shadow:0 8px 22px rgba(0,0,0,.2)}
+.sbtn:active{transform:scale(.93)}
+.sbtn.playing{animation:spin .6s ease}
+@keyframes spin{0%{transform:scale(1.3) rotate(0)}50%{transform:scale(1.1) rotate(-20deg)}100%{transform:scale(1) rotate(0)}}
+
+.card[data-c="action"]  .sbtn{background:linear-gradient(135deg,#43cea2,#185a9d)}
+.card[data-c="mindset"] .sbtn{background:linear-gradient(135deg,#4776e6,#8e54e9)}
+.card[data-c="daily"]   .sbtn{background:linear-gradient(135deg,#f7971e,#ffd200)}
+.card[data-c="emotion"] .sbtn{background:linear-gradient(135deg,#f953c6,#b91d73)}
+.card[data-c="social"]  .sbtn{background:linear-gradient(135deg,#7ec8e3,#2980b9)}
+
+.card.playing{animation:ring .5s ease}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(102,126,234,.4)}70%{box-shadow:0 0 0 16px rgba(102,126,234,0)}100%{box-shadow:0 5px 20px rgba(0,0,0,.09)}}
+
+.nores{text-align:center;padding:60px 20px;color:#ccc;font-size:1.2rem;grid-column:1/-1}
+
+#toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:rgba(40,40,40,.9);color:#fff;
+  padding:10px 26px;border-radius:50px;font-size:.9rem;
+  opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:999;
+  font-family:'Tajawal',sans-serif;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:500px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px;padding:12px}
+  .card{padding:14px 10px 12px;gap:7px;border-radius:18px}
+  .esph{width:58px;height:58px;font-size:2rem}
+  .aw{font-size:1.1rem}
+  .badge{font-size:.78rem;padding:3px 10px}
+  .sbtn{width:42px;height:42px;font-size:1.3rem}
+  .hbubble{padding:12px 22px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbubble">
+    <h1>📖 قاموس المفردات الأساسية</h1>
+    <p>اضغط على البطاقة أو 🔊 لسماع الكلمة بصوت عربي</p>
+  </div>
+</header>
+
+<div class="sw">
+  <input class="si" id="Q" type="text" placeholder="🔍 ابحث عن كلمة..." oninput="render()">
+</div>
+<p class="cnt" id="CNT"></p>
+<div class="grid" id="GRID"></div>
+<div id="toast"></div>
+
+<script>
+const W = [
+  {c:'action',  e:'✅', w:'تَنْتُجُ',      ws:'تنتج',        t:'Result from',    x:'السعادة تنتج من الأشياء البسيطة.'},
+  {c:'daily',   e:'🌿', w:'أَبْسَطُ',      ws:'أبسط',        t:'Simplest',       x:'أبسط الأشياء تعطينا أكبر السعادة.'},
+  {c:'daily',   e:'🧩', w:'الْأَشْيَاءُ',  ws:'الأشياء',     t:'Things',         x:'الأشياء البسيطة تملأ الحياة بالفرح.'},
+  {c:'social',  e:'💬', w:'النَّصَائِحُ',  ws:'النصائح',     t:'Advice',         x:'النصائح الجيدة تغير مسار الحياة.'},
+  {c:'emotion', e:'😄', w:'السُّعَدَاءُ',  ws:'السعداء',     t:'Happy people',   x:'السعداء ينشرون الفرح من حولهم.'},
+  {c:'action',  e:'🌱', w:'عِشْ',          ws:'عش',          t:'Live',           x:'عش كل لحظة بامتنان وفرح.'},
+  {c:'mindset', e:'⏳', w:'اللَّحْظَةُ',   ws:'اللحظة',      t:'Moment',         x:'اللحظة الحالية هي أثمن ما نملك.'},
+  {c:'emotion', e:'🎉', w:'اِسْتَمْتِعْ',  ws:'استمتع',      t:'Enjoy',          x:'استمتع بكل لحظة جميلة في حياتك.'},
+  {c:'mindset', e:'🕐', w:'حَاضِرُكَ',     ws:'حاضرك',       t:'Present',        x:'حاضرك هو المكان الوحيد للسعادة الحقيقية.'},
+  {c:'action',  e:'🏳️', w:'تَسْتَسْلِمْ', ws:'تستسلم',      t:'Give up',        x:'لا تستسلم أمام الصعاب أبداً.'},
+  {c:'mindset', e:'🌟', w:'مُتَفَائِلًا',  ws:'متفائلاً',    t:'Optimistic',     x:'كن متفائلاً وسترى الفرص في كل مكان.'},
+  {c:'emotion', e:'😟', w:'التَّشَاؤُمُ',  ws:'التشاؤم',     t:'Pessimism',      x:'التشاؤم يسرق جمال اللحظات منك.'},
+  {c:'social',  e:'🤝', w:'يَدُ الْعَوْنِ',ws:'يد العون',    t:'Helping hand',   x:'يد العون تصنع الفرق في حياة الآخرين.'},
+  {c:'action',  e:'🛍️', w:'يَشْتَرِي',    ws:'يشتري',       t:'Buy',            x:'يشتري السعادة من لا يعرف قيمتها الحقيقية.'},
+  {c:'mindset', e:'💡', w:'الاِسْتِفَادَةُ',ws:'الاستفادة',  t:'Benefit',        x:'الاستفادة من التجارب تصنع شخصاً أقوى.'},
+];
+
+let arVoice = null;
+function loadVoices() {
+  if (!window.speechSynthesis) return;
+  const v = speechSynthesis.getVoices();
+  const arAll = v.filter(x => x.lang.startsWith('ar'));
+  const maleKeywords = /male|man|zayd|omar|hamed|salim|majed|ibrahim|tarik|fares|hussain|ali|mohamed|ahmed/i;
+  arVoice = arAll.find(x => maleKeywords.test(x.name))
+          || arAll.find(x => x.lang === 'ar-SA')
+          || arAll.find(x => x.lang === 'ar-EG')
+          || arAll[0] || null;
+}
+if (window.speechSynthesis) {
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function webSpeech(text, onDone) {
+  if (!window.speechSynthesis) { if(onDone) onDone(); return; }
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ar-SA';
+    u.rate  = 0.80;
+    u.pitch = 0.80;
+    u.volume = 1;
+    if (arVoice) u.voice = arVoice;
+    u.onend = u.onerror = () => { if (onDone) onDone(); };
+    speechSynthesis.speak(u);
+    const wd = setInterval(() => {
+      if (!speechSynthesis.speaking) { clearInterval(wd); return; }
+      if (speechSynthesis.paused) speechSynthesis.resume();
+    }, 300);
+    setTimeout(() => clearInterval(wd), 15000);
+  }, 120);
+}
+
+let activeAudio = null;
+let activeBtn   = null;
+let activeCard  = null;
+
+function clearActive() {
+  if (activeBtn)  activeBtn.classList.remove('playing');
+  if (activeCard) activeCard.classList.remove('playing');
+  activeBtn = null; activeCard = null;
+}
+
+function say(word, btn, card) {
+  if (activeAudio) { activeAudio.pause(); activeAudio = null; }
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  clearActive();
+
+  activeBtn  = btn;
+  activeCard = card;
+  if (btn)  btn.classList.add('playing');
+  if (card) { card.classList.add('playing'); setTimeout(() => card.classList.remove('playing'), 700); }
+
+  const text = word;
+  const audio = new Audio();
+  activeAudio = audio;
+  audio.src = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ar&client=tw-ob&q=' + encodeURIComponent(text);
+  audio.onended = () => { clearActive(); activeAudio = null; };
+  audio.onerror = () => { activeAudio = null; webSpeech(text, clearActive); };
+  const p = audio.play();
+  if (p && p.catch) {
+    p.catch(() => { activeAudio = null; webSpeech(text, clearActive); });
+  }
+}
+
+function play(btn, word) {
+  const card = btn ? btn.closest('.card') : null;
+  say(word, btn, card);
+}
+
+function render() {
+  const grid = document.getElementById('GRID');
+  const q    = document.getElementById('Q').value.trim();
+  grid.innerHTML = '';
+  let n = 0;
+  W.forEach(w => {
+    if (q && !w.w.includes(q) && !w.t.toLowerCase().includes(q.toLowerCase()) && !w.ws.includes(q)) return;
+    n++;
+    const d = document.createElement('div');
+    d.className = 'card'; d.dataset.c = w.c;
+    d.style.animationDelay = (n * .04) + 's';
+    const sw = w.ws.replace(/'/g, "&#39;");
+    d.innerHTML =
+      `<div class="esph">${w.e}</div>` +
+      `<div class="aw">${w.w}</div>` +
+      `<div class="badge">${w.t}</div>` +
+      `<button class="sbtn" aria-label="استمع"
+        ontouchstart="event.stopPropagation();play(this,'${sw}')"
+        onclick="event.stopPropagation();play(this,'${sw}')">🔊</button>`;
+    d.addEventListener('click', () => play(null, w.ws));
+    grid.appendChild(d);
+  });
+  document.getElementById('CNT').textContent = n + ' كلمة';
+  if (!n) grid.innerHTML = '<div class="nores">🔍 لا توجد نتائج...</div>';
+}
+
+(function(){
+  const em = ['⭐','✨','🌟','💫','📖','🎉','🌸','🌈','💡'];
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = em[Math.floor(Math.random() * em.length)];
+    s.style.cssText = `left:${Math.random()*100}%;bottom:-30px;` +
+      `animation-duration:${5+Math.random()*7}s;animation-delay:${Math.random()*8}s`;
+    document.body.appendChild(s);
+  }
+})();
+
+render();
+</script>
+</body>
+</html>
